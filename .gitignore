@@ -1,0 +1,46 @@
+# --- Python cache/artifacts ---
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.dll
+*.dylib
+.build/
+.python-version
+.ipynb_checkpoints/
+
+# --- Logs & temp ---
+*.log
+*.tmp
+*.temp
+
+# --- Virtual envs ---
+.venv/
+venv/
+env/
+ENV/
+
+# --- Pipenv ---
+pip-wheel-metadata/
+
+# --- Editors/IDE ---
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# --- OS cruft ---
+.DS_Store
+Thumbs.db
+
+# --- Project outputs & local data ---
+out/
+data/
+old/
+old2/
+
+# --- Plotly export scratch ---
+*.html
+*.png
+
