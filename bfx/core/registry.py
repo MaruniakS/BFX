@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import Dict, Type
 
 from bfx.evaluators import EntropyEvaluator, CVEvaluator, FeatureEvaluator
-from bfx.explainers import Explainer, CVExplainer, GenericScoresExplainer
+from bfx.explainers import Explainer, CVExplainer
 
 
 EVALUATOR_REGISTRY: Dict[str, Type[FeatureEvaluator]] = {
@@ -25,7 +25,7 @@ def get_evaluator_class(name: str) -> Type[FeatureEvaluator]:
 
 def get_explainer_class(name: str) -> Type[Explainer]:
     try:
-        return EXPLAINER_REGISTRY.get(name, GenericScoresExplainer)   
+        return EXPLAINER_REGISTRY.get(name)   
     except KeyError:
         raise ValueError(f"Unknown evaluator: {name}")  
 
