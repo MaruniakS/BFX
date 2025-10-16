@@ -41,7 +41,7 @@ class FeaturesChartExaminer:
     def run(self) -> Tuple[Any, Any, Optional[Path]]:
         """
         Render the selected chart and optionally save to disk.
-        Saves to: <outdir>/<anomaly_name>/<filename> if 'filename' is provided.
+        Saves to: <outdir>/<anomaly_name>/charts/<filename> if 'filename' is provided.
         Returns: (fig, ax, saved_path|None)
         """
         if self.dataset is None or self.dataset.data is None:
@@ -60,7 +60,7 @@ class FeaturesChartExaminer:
                 filename = f"{filename}.png"
             outdir = Path(self.dataset.params["outdir"])
             group = str(self.dataset.params["anomaly_name"] or "Anomaly")
-            save_path = outdir / group / filename
+            save_path = outdir / group / 'charts' / filename
             save_path.parent.mkdir(parents=True, exist_ok=True)
 
         fig, ax = plot_feature_timeseries(
