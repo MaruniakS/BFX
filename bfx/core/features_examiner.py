@@ -55,13 +55,23 @@ class FeaturesExaminer:
         # meta
         data = self.dataset.data or []
         n_rows = len(data) if isinstance(data, list) else 0
-        feature_count = len(data[0]) if n_rows and isinstance(data[0], dict) else 0
+        if n_rows and isinstance(data[0], dict):
+            inferred_features = list(data[0].keys())
+        else:
+            inferred_features = []
+
+        user_feats = self.params.get("features")
+        features_labels = (
+            inferred_features if user_feats is None
+            else [f for f in user_feats if f in inferred_features]
+        )
 
         combined: Dict[str, Any] = {
             "methods": methods,
             "input_meta": {
                 "n_rows": n_rows,
-                "feature_count_inferred": feature_count,
+                "feature_count_inferred": len(inferred_features),
+                "features": features_labels,
                 "source": {
                     "type": "file",
                     "path": str(self.dataset.input_path) if self.dataset.input_path else str(self.dataset.params.get("input")),

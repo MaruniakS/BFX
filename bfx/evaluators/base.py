@@ -3,7 +3,6 @@ from __future__ import annotations
 import sys
 from typing import Any, Dict, List, Optional, Tuple
 
-import numpy as np
 import pandas as pd
 
 from bfx.core.dataset import Dataset

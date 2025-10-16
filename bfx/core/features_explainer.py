@@ -36,6 +36,7 @@ class FeaturesExplainer:
     def run(self) -> Dict[str, List[str]]:
         outputs: Dict[str, List[str]] = {}
         res_by_method = self.result.get("results") or {}
+        features = self.result.get("input_meta", {}).get("features", [])
 
         # Determine the global feature selection once (per method we’ll intersect with what exists)
         user_feats: Optional[List[str]] = self.params.get("features")
@@ -46,17 +47,15 @@ class FeaturesExplainer:
             if not block:
                 continue
 
-            # Available features for this method (from its scores)
-            method_feats = [row.get("feature") for row in (block.get("scores") or []) if "feature" in row]
-            if not method_feats:
+            if not features:
                 continue
-
+            
             # Apply user selection if provided; else use all method features
             if user_feats is None:
-                selected_feats = method_feats
+                selected_feats = features
             else:
                 want = set(user_feats)
-                selected_feats = [f for f in method_feats if f in want]
+                selected_feats = [f for f in features if f in want]
                 if not selected_feats:
                     # nothing to explain for this method; skip silently
                     continue

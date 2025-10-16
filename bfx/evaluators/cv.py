@@ -8,7 +8,7 @@ import pandas as pd
 from .base import FeatureEvaluator
 
 
-class CoefficientOfVariationEvaluator(FeatureEvaluator):
+class CVEvaluator(FeatureEvaluator):
     """
     Coefficient of variation per feature.
 

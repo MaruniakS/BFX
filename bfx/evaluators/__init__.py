@@ -1,9 +1,9 @@
 from .base import FeatureEvaluator
 from .entropy import EntropyEvaluator
-from .coefficient_of_variation import CoefficientOfVariationEvaluator as CVEvaluator
+from .cv import CVEvaluator
 
 __all__ = [
     "FeatureEvaluator",
-    "EntropyEvaluator",
     "CVEvaluator",
+    "EntropyEvaluator",
 ]
