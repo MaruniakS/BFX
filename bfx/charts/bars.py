@@ -89,3 +89,21 @@ def plot_triplet_bars(
         plt.close(fig)
     return fig, ax
 
+def top_k_barh(labels: Sequence[str], values: Sequence[float],
+               xlabel: str, title: str, outpath: Path,
+               dpi: int = 160) -> Optional[str]:
+    labels = list(labels); values = list(values)
+    if not labels:
+        return None
+    outpath.parent.mkdir(parents=True, exist_ok=True)
+    plt.figure(figsize=(8, 0.35 * len(labels) + 1.5))
+    y = np.arange(len(labels))
+    plt.barh(y, values)
+    plt.yticks(y, labels)
+    plt.xlabel(xlabel)
+    plt.title(title)
+    plt.gca().invert_yaxis()
+    plt.tight_layout()
+    plt.savefig(outpath, dpi=dpi)
+    plt.close()
+    return str(outpath)

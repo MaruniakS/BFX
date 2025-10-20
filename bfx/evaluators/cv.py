@@ -1,12 +1,11 @@
 from __future__ import annotations
-
-from typing import Any, Dict, List, Tuple
-
+from typing import Any, Dict, List, Optional, Sequence, Tuple
 import numpy as np
 import pandas as pd
 
 from .base import FeatureEvaluator
-
+from ..common.ts import make_index, numeric_feature_cols
+from ..common.numerics import TINY_SIGMA
 
 class CVEvaluator(FeatureEvaluator):
     """
@@ -19,59 +18,59 @@ class CVEvaluator(FeatureEvaluator):
     Scaling across features:
       - min–max to [0,1] for comparability (reported in meta.scaling).
     """
-
     name = "cv"
 
-    def default_params(self) -> Dict[str, Any]:
-        params = super().default_params()
-        params.update({
-            "ddof": 1,                # only for 'classic'
-            "variant": "robust_mad",  # 'classic' | 'robust_mad'
-            "epsilon": 0.0,           # stabilizer
-        })
-        return params
+    def __init__(self, variant: str = "robust_mad", ddof: int = 1, epsilon: float = 0.0) -> None:
+        self.variant = str(variant)
+        self.ddof = int(ddof)
+        self.epsilon = float(epsilon)
 
-    # ---- helpers ----
-
-    def _classic_cv(self, s: pd.Series, ddof: int, eps: float) -> Tuple[float, bool]:
-        x = s.dropna().to_numpy(dtype=float)
+    def _classic_cv(self, x: np.ndarray) -> Tuple[float, bool]:
+        x = x[np.isfinite(x)]
         if x.size <= 1:
             return 0.0, True
         mu = float(np.mean(x))
-        denom = abs(mu) + float(eps)
-        if denom == 0.0:
+        denom = abs(mu) + self.epsilon
+        if denom <= TINY_SIGMA:
             return 0.0, True
-        sd = float(np.std(x, ddof=ddof))
+        sd = float(np.std(x, ddof=self.ddof))
         return sd / denom, False
 
-    def _robust_mad_cv(self, s: pd.Series, eps: float) -> Tuple[float, bool]:
-        x = s.dropna().to_numpy(dtype=float)
+    def _robust_mad_cv(self, x: np.ndarray) -> Tuple[float, bool]:
+        x = x[np.isfinite(x)]
         if x.size == 0:
             return 0.0, True
         med = float(np.median(x))
-        denom = abs(med) + float(eps)
-        if denom == 0.0:
+        denom = abs(med) + self.epsilon
+        if denom <= TINY_SIGMA:
             return 0.0, True
         mad = float(np.median(np.abs(x - med)))
         sigma_hat = 1.4826 * mad
         return sigma_hat / denom, False
 
-    # ---- main hook ----
+    def evaluate(self, dataset, features: Optional[Sequence[str]] = None) -> Dict[str, Any]:
+        data = dataset.data
+        if not isinstance(data, list) or not data:
+            raise ValueError("Dataset has no data loaded.")
 
-    def _evaluate_df(self, df: pd.DataFrame) -> Dict[str, Any]:
-        ddof = int(self.params["ddof"])
-        variant = str(self.params["variant"])
-        eps = float(self.params["epsilon"])
+        period_min = int(dataset.params.get("period") or 1)
+        df = make_index(pd.DataFrame(data), dataset.params.get("start_time"), period_min)
+
+        all_feats = list(numeric_feature_cols(df))
+        feats = [f for f in (features or all_feats) if f in all_feats]
+        if not feats:
+            raise ValueError("No numeric features available for CV evaluation.")
 
         raw_values: List[Tuple[str, float, bool]] = []
-        for col in df.columns:
-            if variant == "classic":
-                val, undefined = self._classic_cv(df[col], ddof, eps)
-            elif variant == "robust_mad":
-                val, undefined = self._robust_mad_cv(df[col], eps)
+        for col in feats:
+            x = df[col].to_numpy(dtype=float, copy=False)
+            if self.variant == "classic":
+                val, undefined = self._classic_cv(x)
+            elif self.variant == "robust_mad":
+                val, undefined = self._robust_mad_cv(x)
             else:
-                raise ValueError(f"Unknown CV variant: {variant}")
-            raw_values.append((col, val, undefined))
+                raise ValueError(f"Unknown CV variant: {self.variant}")
+            raw_values.append((col, float(val), bool(undefined)))
 
         # min–max scaling across defined CVs
         vals = np.array([v for (_, v, u) in raw_values if not u], dtype=float)
@@ -85,19 +84,16 @@ class CVEvaluator(FeatureEvaluator):
             scores.append({
                 "feature": col,
                 "score": float(score),
-                "details": {
-                    "cv": float(val),
-                    "undefined": bool(undefined),
-                }
+                "details": {"cv": float(val), "undefined": bool(undefined)}
             })
 
         return {
             "method": self.name,
             "meta": {
-                "variant": variant,
+                "variant": self.variant,
                 "scaling": "minmax",
-                "ddof": ddof if variant == "classic" else None,
-                "epsilon": eps if eps > 0 else None,
+                "ddof": self.ddof if self.variant == "classic" else None,
+                "epsilon": self.epsilon if self.epsilon > 0 else None,
             },
             "scores": scores,
         }
