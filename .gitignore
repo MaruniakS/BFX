@@ -36,9 +36,6 @@ Thumbs.db
 
 # --- Project outputs & local data ---
 out/
-data/
-old/
-old2/
 
 # --- Plotly export scratch ---
 *.html

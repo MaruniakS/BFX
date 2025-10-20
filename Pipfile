@@ -1,14 +1,16 @@
 [[source]]
+name = "pypi"
 url = "https://pypi.org/simple"
 verify_ssl = true
-name = "pypi"
-
-[packages]
-seaborn = "*"
-pandas = "*"
-
-[dev-packages]
 
 [requires]
 python_version = "3.8"
-python_full_version = "3.8.20"
+
+[packages]
+numpy = ">=1.24,<2"
+pandas = ">=1.5,<2"
+matplotlib = ">=3.7,<4"
+
+[scripts]
+explainers = "python -m demos.run_explainers --scenario google_leak"
+examiner = "python -m demos.run_chart_examiner --scenario google_leak"
