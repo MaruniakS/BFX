@@ -77,30 +77,25 @@ def main():
         "explainer_params": {
             "cv": {
                 "artifacts": ["delta_bar", "triplets", "scatter_pd"],
-                "subdir": "explain"
             },
             "entropy": {
                 "artifacts": ["delta_bar", "triplets", "scatter_pd"],
-                "subdir": "explain"
             },
             "ks": {
                 "artifacts": ["topk_bar", "ecdf_overlays", "diff_curves", "threshold_table"],
                 "overlay_top_k": args.overlay_top_k,
                 "diff_top_k": args.diff_top_k,
                 "threshold_top_k": args.top_k,
-                "subdir": "explain"
             },
             "auc": {
                 "artifacts": ["top_k_bar", "roc_curves", "threshold_table"],
                 "roc_top_k": args.roc_top_k,
-                "subdir": "explain"
             },
             "cusum": {
                 "artifacts": ["top_k_bar", "cusum_curves", "summary_table"],
                 "curves_top_k": args.cusum_curves_top_k,
                 "draw_threshold": None,
                 "draw_anomaly_bounds": True,
-                "subdir": "explain"
             }
         }
     })

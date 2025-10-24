@@ -14,6 +14,13 @@ A lightweight toolkit for **investigating BGP feature time-series** around suspe
   - [Run the chart examiner](#run-the-chart-examiner)
 - [Outputs](#outputs)
 - [Methods](#methods)
+- [Usage \& Parameters (per method)](#usage--parameters-per-method)
+  - [Common (Explainers)](#common-explainers)
+  - [CV](#cv)
+  - [Entropy](#entropy)
+  - [KS (Kolmogorov–Smirnov)](#ks-kolmogorovsmirnov)
+  - [AUC (Mann–Whitney / ROC)](#auc-mannwhitney--roc)
+  - [CUSUM (Page CUSUM)](#cusum-page-cusum)
 - [Explainers \& charts](#explainers--charts)
 - [Extending](#extending)
   - [Add a new evaluator](#add-a-new-evaluator)
@@ -23,9 +30,6 @@ A lightweight toolkit for **investigating BGP feature time-series** around suspe
 - [Conventions \& tips](#conventions--tips)
 - [Roadmap ideas](#roadmap-ideas)
 - [License](#license)
-
----
-
 
 ---
 
@@ -184,6 +188,122 @@ out/
   - Baseline from pre-window (or first half); plots S⁺/S⁻ curves over time
 
 Each evaluator produces a compact JSON block with `method`, `meta`, and `scores`, optionally `windows` and `deltas` for windowed methods.
+
+---
+
+## Usage & Parameters (per method)
+
+### Common (Explainers)
+- `subdir`: `str` — default: `"explain"`
+- `artifacts`: subset of the method’s allowed artifact names (see each method)
+
+---
+
+### CV
+
+**Evaluator — `CVEvaluator`**
+
+| Param | Type | Default | Notes |
+|---|---|---|---|
+| `variant` | `classic` \| `robust_mad` | `robust_mad` | Classic: `σ/\|μ\|`; Robust: `(1.4826·MAD)/\|median\|` |
+| `ddof` | `int` | `1` | Used only when `variant = classic` |
+| `epsilon` | `float` | `0.0` | Denominator stabilizer |
+
+**Explainer — `CVExplainer`**
+
+| Param | Type | Default | Allowed |
+|---|---|---|---|
+| `artifacts` | subset of enum | `["delta_bar","triplets"]` | `{ "delta_bar", "triplets", "scatter_pd" }` |
+| `delta_key` | str | `during_minus_pre` | `during_minus_pre \| post_minus_pre` |
+| `subdir` | `str` | `"explain"` | — | — |
+
+---
+
+### Entropy
+
+**Evaluator — `EntropyEvaluator`**
+
+| Param | Type | Default | Notes |
+|---|---|---|---|
+| `bins` | `int` \| `str` | `20` | Histogram bins (per-feature edges computed once) |
+| `base` | `float` | `2.0` | Log base (bits when 2.0) |
+| `scaling` | `str` | `"minmax"` | Per-window min–max across features |
+| `epsilon` | `float` | `1e-12` | Log stability |
+
+**Explainer — `EntropyExplainer`**
+
+| Param | Type | Default | Allowed `artifacts` |
+|---|---|---|---|
+| `artifacts` | subset of enum | `["delta_bar","triplets","scatter_pd"]` | `{ "delta_bar", "triplets", "scatter_pd" }` |
+| `delta_key` | str | `during_minus_pre` | `during_minus_pre \| post_minus_pre` |
+| `subdir` | `str` | `"explain"` | — | — |
+
+---
+
+### KS (Kolmogorov–Smirnov)
+
+**Evaluator — `KSEvaluator`**
+
+| Param | Type | Default | Notes |
+|---|---|---|---|
+| `window_pair` | pair of enums | `["pre","during"]` | Each element ∈ `{ pre, during, post, first_half, second_half }`; fallback applies if invalid |
+| `min_samples_per_window` | `int` | `5` | Minimum samples per window |
+| `fallback` | `halves` | `halves` | Use first/second halves if needed |
+
+**Explainer — `KSExplainer`**
+
+| Param | Type | Default | Allowed `artifacts` | Notes |
+|---|---|---|---|---|
+| `artifacts` | subset of enum | `["top_k_bar","ecdf_overlays","diff_curves","threshold_table"]` | `{ "top_k_bar", "ecdf_overlays", "diff_curves", "threshold_table" }` | — |
+| `overlay_top_k` | `int` \| `None` | inherits global cap | — | How many ECDF overlay plots |
+| `diff_top_k` | `int` \| `None` | inherits overlay cap → else global cap | — | How many ECDF-difference plots |
+| `threshold_top_k` | `int` \| `None` | inherits global cap | — | Rows in `ks_thresholds.csv` |
+| `subdir` | `str` | `"explain"` | — | — |
+
+---
+
+### AUC (Mann–Whitney / ROC)
+
+**Evaluator — `AUCEvaluator`**
+
+| Param | Type | Default | Notes |
+|---|---|---|---|
+| `window_pair` | pair of enums | `["pre","during"]` | Each element ∈ `{ pre, during, post, first_half, second_half }`; fallback applies if invalid |
+| `min_samples_per_window` | `int` | `5` | Minimum samples per window |
+| `fallback` | `halves` | `halves` | Use first/second halves if needed |
+| `ties` | `average` \| `max` \| `min` | `average` | Tie handling for U/AUC |
+
+**Explainer — `AUCExplainer`**
+
+| Param | Type | Default | Allowed `artifacts` | Notes |
+|---|---|---|---|---|
+| `artifacts` | subset of enum | `["top_k_bar","roc_curves","threshold_table"]` | `{ "top_k_bar", "roc_curves", "threshold_table" }` | — |
+| `roc_top_k` | `int` \| `None` | inherits global cap | — | How many ROC curves |
+| `subdir` | `str` | `"explain"` | — | — |
+
+---
+
+### CUSUM (Page CUSUM)
+
+**Evaluator — `CUSUMEvaluator`**
+
+| Param | Type | Default | Notes |
+|---|---|---|---|
+| `side` | `up` \| `down` \| `both` | `both` | Drift direction |
+| `k` | `float` | `0.0` | Allowance (SD units) |
+| `baseline_window` | `auto` \| `pre` \| `first_half` | `auto` | Prefers `pre`, else first half |
+| `min_samples_pre` | `int` | `5` | Minimum for μ₀, σ₀ |
+
+**Explainer — `CUSUMExplainer`**
+
+| Param | Type | Default | Allowed `artifacts` | Notes |
+|---|---|---|---|---|
+| `artifacts` | subset of enum | `["top_k_bar","cusum_curves","summary_table"]` | `{ "top_k_bar", "cusum_curves", "summary_table" }` | — |
+| `curves_top_k` | `int` \| `None` | inherits global cap | — | How many per-feature CUSUM plots |
+| `draw_threshold` | `float` \| `None` | `None` | — | Horizontal reference line (y) |
+| `draw_anomaly_bounds` | `bool` | `True` | — | Vertical lines at anomaly start/end |
+| `subdir` | `str` | `"explain"` | — | — |
+
 
 ---
 
