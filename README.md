@@ -431,6 +431,11 @@ demos/
 ├── run_explainers.py             # evaluate + explain all methods
 └── run_chart_examiner.py         # time-series “examiner”
 
+phase_analysis/
+├── run_experiment.py             # single-event phase analysis runner
+├── run_batch_experiment.py       # batch phase analysis runner
+└── pipeline.py                   # metric computation + exports
+
 data/
 └── Features.json               # sample 1-hour dataset (60 rows)
 

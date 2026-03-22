@@ -20,8 +20,8 @@ def plot_scatter_xy(
 ):
     fig, ax = plt.subplots(figsize=figsize)
     ax.scatter(xvals, yvals, s=36, alpha=0.85)
-    for lx, ly, lab in zip(xvals, yvals, labels):
-        ax.annotate(lab, (lx, ly), xytext=(3, 3), textcoords="offset points", fontsize=8, alpha=0.75)
+    # for lx, ly, lab in zip(xvals, yvals, labels):
+    #     ax.annotate(lab, (lx, ly), xytext=(3, 3), textcoords="offset points", fontsize=8, alpha=0.75)
     if diagonal:
         lo = float(min(min(xvals), min(yvals)))
         hi = float(max(max(xvals), max(yvals)))
@@ -54,8 +54,8 @@ def plot_scatter_deltas(
 ):
     fig, ax = plt.subplots(figsize=figsize)
     ax.scatter(xvals, yvals, s=40, alpha=0.9)
-    for x, y, lab in zip(xvals, yvals, labels):
-        ax.annotate(lab, (x, y), xytext=(4, 3), textcoords="offset points", fontsize=8, alpha=0.75)
+    # for x, y, lab in zip(xvals, yvals, labels):
+    #     ax.annotate(lab, (x, y), xytext=(4, 3), textcoords="offset points", fontsize=8, alpha=0.75)
 
     if zero_axes:
         ax.axhline(0.0, linestyle="--", linewidth=1, alpha=0.5)

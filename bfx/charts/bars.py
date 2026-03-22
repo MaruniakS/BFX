@@ -25,14 +25,14 @@ def plot_delta_bar(
     if orientation == "v":
         ax.bar(np.arange(n), deltas)
         ax.set_xticks(np.arange(n), list(features), rotation=45, ha="right")
-        ax.set_ylabel(ylabel)
-        ax.set_xlabel(xlabel)
+        # ax.set_ylabel(ylabel)
+        # ax.set_xlabel(xlabel)
     else:
         ax.barh(y, deltas)
         ax.set_yticks(y, list(features))
         ax.invert_yaxis()
         ax.set_xlabel(xlabel)
-        ax.set_ylabel(ylabel)
+        # ax.set_ylabel(ylabel)
 
     ax.set_title(title)
     ax.grid(True, axis=("x" if orientation != "v" else "y"), linestyle=":", alpha=0.5)
@@ -101,7 +101,7 @@ def top_k_barh(labels: Sequence[str], values: Sequence[float],
     plt.barh(y, values)
     plt.yticks(y, labels)
     plt.xlabel(xlabel)
-    plt.title(title)
+    # plt.title(title)
     plt.gca().invert_yaxis()
     plt.tight_layout()
     plt.savefig(outpath, dpi=dpi)

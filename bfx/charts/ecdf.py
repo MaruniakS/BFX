@@ -58,8 +58,8 @@ def plot_ecdf_overlay(
         plt.text(0.02, 0.02, f"metric = {float(d_value):.3f}", transform=plt.gca().transAxes,
                  fontsize=9, bbox=dict(facecolor="white", alpha=0.7, edgecolor="none"))
 
-    plt.title(title)
-    plt.xlabel(x_label)
+    # plt.title(title)
+    # plt.xlabel(x_label)
     plt.ylabel("Empirical CDF")
     plt.legend()
     plt.grid(True, linestyle=":", alpha=0.4)
@@ -108,8 +108,8 @@ def plot_cdf_diff(
         plt.text(0.02, 0.02, f"metric = {float(d_value):.3f}", transform=plt.gca().transAxes,
                  fontsize=9, bbox=dict(facecolor="white", alpha=0.7, edgecolor="none"))
 
-    plt.title(title)
-    plt.xlabel(x_label)
+    # plt.title(title)
+    # plt.xlabel(x_label)
     plt.ylabel("Δ CDF")
     plt.legend()
     plt.grid(True, linestyle=":", alpha=0.4)

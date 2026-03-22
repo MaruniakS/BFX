@@ -183,7 +183,7 @@ class EntropyExplainer(Explainer):
                 feats_ranked,
                 vals,
                 title=f"Entropy — Δ ({delta_key.replace('_', ' ')})",
-                xlabel=f"Δ score ({delta_key.replace('_', ' ')})",
+                xlabel="Δ score",
                 save_path=str(p),
             )
             paths.append(str(p))

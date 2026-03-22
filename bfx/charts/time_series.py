@@ -129,8 +129,8 @@ def plot_feature_timeseries(
         ax.plot(df.index, df[c].values, label=c, linewidth=linewidth)
 
     # axis labels
-    ax.set_xlabel("UTC time")
-    ax.set_ylabel("min–max" if scaling == "minmax" else "value")
+    # ax.set_xlabel("UTC time")
+    # ax.set_ylabel("min–max" if scaling == "minmax" else "value")
 
     # X-axis window & ticks: only force if both start & end are provided
     if t0 is not None and t1 is not None:
@@ -169,8 +169,21 @@ def plot_feature_timeseries(
             )
 
     if legend:
-        ncol = 2 if len(df.columns) > 2 else 1
-        ax.legend(loc="upper right", ncol=ncol, fontsize=8, frameon=False)
+        leg = ax.legend(
+            loc="upper right",
+            ncol=1,                # always one column (vertical)
+            fontsize=8,
+            frameon=True,          # draw a background
+            fancybox=True,
+            framealpha=0.75,       # slight transparency
+            borderpad=0.6,
+            labelspacing=0.4,
+            handlelength=2.0,
+        )
+        # optional: tweak legend frame colors
+        leg.get_frame().set_facecolor("white")
+        leg.get_frame().set_edgecolor("0.8")
+        leg.get_frame().set_linewidth(0.8)
 
     fig.tight_layout()
     if save_path:

@@ -7,7 +7,7 @@ from demos.scenarios import SCENARIOS
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--scenario", default="google_leak")
+    ap.add_argument("--scenario", default="india_leak")
     ap.add_argument("--top-k", type=int, default=None)
     ap.add_argument("--roc-top-k", type=int, default=None)
     ap.add_argument("--overlay-top-k", type=int, default=None)

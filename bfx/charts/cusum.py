@@ -83,9 +83,9 @@ def plot_cusum_curves(
     if threshold is not None:
         plt.axhline(float(threshold), linestyle="--", linewidth=1)
 
-    plt.title(title)
+    # plt.title(title)
     plt.ylabel("CUSUM (standardized)")
-    plt.xlabel("time (UTC)")
+    plt.xlabel("Time (UTC)")
     plt.legend()
     plt.tight_layout()
     plt.savefig(p, dpi=dpi)

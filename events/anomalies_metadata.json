@@ -1,0 +1,209 @@
+[
+  {
+    "event": "AS9121 RTL",
+    "class": "0",
+    "str_class": "Direct",
+    "project": "ris",
+    "collector": "rrc05",
+    "peers": "13237 12793 1853",
+    "start_date": "2004-12-24 09:20",
+    "finish_date": "2004-12-24 10:03",
+    "status": "ok",
+    "output_file": "combined_events/events/as9121_rtl.json",
+    "resolved_paths": {
+      "pre": "dataset/no_anomaly/AS9121_RTL_pre_window/transform/Features/Features_1.json",
+      "anomaly": "dataset/anomaly/AS9121_RTL/transform/Features/Features_1.json",
+      "post": "dataset/no_anomaly/AS9121_RTL_post_window/transform/Features/Features_1.json"
+    },
+    "counts": {
+      "pre": 1438,
+      "anomaly": 43,
+      "post": 1438,
+      "total": 2919
+    }
+  },
+  {
+    "event": "AWS Route Leak",
+    "class": "0",
+    "str_class": "Direct",
+    "project": "ris",
+    "collector": "rrc04",
+    "peers": "6939",
+    "start_date": "2016-04-22 17:10",
+    "finish_date": "2016-04-22 20:00",
+    "status": "ok",
+    "output_file": "combined_events/events/aws_route_leak.json",
+    "resolved_paths": {
+      "pre": "dataset/no_anomaly/AWS_Route_Leak_pre_window/transform/Features/Features_1.json",
+      "anomaly": "dataset/anomaly/AWS_Route_Leak/transform/Features/Features_1.json",
+      "post": "dataset/no_anomaly/AWS_Route_Leak_post_window/transform/Features/Features_1.json"
+    },
+    "counts": {
+      "pre": 1439,
+      "anomaly": 170,
+      "post": 1439,
+      "total": 3048
+    }
+  },
+  {
+    "event": "Malaysian Telecom",
+    "class": "0",
+    "str_class": "Direct",
+    "project": "ris",
+    "collector": "rrc04",
+    "peers": "513 2509 20932",
+    "start_date": "2015-06-12 08:42",
+    "finish_date": "2015-06-12 10:24",
+    "status": "ok",
+    "output_file": "combined_events/events/malaysian_telecom.json",
+    "resolved_paths": {
+      "pre": "dataset/no_anomaly/Malaysian_Telecom_pre_window/transform/Features/Features_1.json",
+      "anomaly": "dataset/anomaly/Malaysian_Telecom/transform/Features/Features_1.json",
+      "post": "dataset/no_anomaly/Malaysian_Telecom_post_window/transform/Features/Features_1.json"
+    },
+    "counts": {
+      "pre": 1438,
+      "anomaly": 102,
+      "post": 1439,
+      "total": 2979
+    }
+  },
+  {
+    "event": "Code Red v2",
+    "class": "1",
+    "str_class": "Indirect",
+    "project": "ris",
+    "collector": "rrc04",
+    "peers": "513 559 6893",
+    "start_date": "2001-07-19 10:00",
+    "finish_date": "2001-07-19 20:00",
+    "status": "ok",
+    "output_file": "combined_events/events/code_red_v2.json",
+    "resolved_paths": {
+      "pre": "dataset/no_anomaly/Code_Red_v2_pre_window/transform/Features/Features_1.json",
+      "anomaly": "dataset/anomaly/Code_Red_v2/transform/Features/Features_1.json",
+      "post": "dataset/no_anomaly/Code_Red_v2_post_window/transform/Features/Features_1.json"
+    },
+    "counts": {
+      "pre": 1432,
+      "anomaly": 593,
+      "post": 1433,
+      "total": 3458
+    }
+  },
+  {
+    "event": "WannaCrypt",
+    "class": "1",
+    "str_class": "Indirect",
+    "project": "ris",
+    "collector": "rrc04",
+    "peers": "",
+    "start_date": "2017-05-12 07:44",
+    "finish_date": "2017-05-15 23:59",
+    "status": "ok",
+    "output_file": "combined_events/events/wannacrypt.json",
+    "resolved_paths": {
+      "pre": "dataset/no_anomaly/WannaCrypt_pre_window/transform/Features/Features_1.json",
+      "anomaly": "dataset/anomaly/WannaCrypt/transform/Features/Features_1.json",
+      "post": "dataset/no_anomaly/WannaCrypt_post_window/transform/Features/Features_1.json"
+    },
+    "counts": {
+      "pre": 1439,
+      "anomaly": 5295,
+      "post": 1439,
+      "total": 8173
+    }
+  },
+  {
+    "event": "Nimda",
+    "class": "1",
+    "str_class": "Indirect",
+    "project": "ris",
+    "collector": "rrc04",
+    "peers": "513 559 6893",
+    "start_date": "2001-07-18 13:00",
+    "finish_date": "2001-07-21 12:00",
+    "status": "ok",
+    "output_file": "combined_events/events/nimda.json",
+    "resolved_paths": {
+      "pre": "dataset/no_anomaly/Nimda_pre_window/transform/Features/Features_1.json",
+      "anomaly": "dataset/anomaly/Nimda/transform/Features/Features_1.json",
+      "post": "dataset/no_anomaly/Nimda_post_window/transform/Features/Features_1.json"
+    },
+    "counts": {
+      "pre": 1432,
+      "anomaly": 4253,
+      "post": 1433,
+      "total": 7118
+    }
+  },
+  {
+    "event": "Slammer",
+    "class": "1",
+    "str_class": "Indirect",
+    "project": "ris",
+    "collector": "rrc04",
+    "peers": "513 559 6893",
+    "start_date": "2003-01-25 05:31",
+    "finish_date": "2003-01-25 19:59",
+    "status": "ok",
+    "output_file": "combined_events/events/slammer.json",
+    "resolved_paths": {
+      "pre": "dataset/no_anomaly/Slammer_pre_window/transform/Features/Features_1.json",
+      "anomaly": "dataset/anomaly/Slammer/transform/Features/Features_1.json",
+      "post": "dataset/no_anomaly/Slammer_post_window/transform/Features/Features_1.json"
+    },
+    "counts": {
+      "pre": 1438,
+      "anomaly": 867,
+      "post": 1438,
+      "total": 3743
+    }
+  },
+  {
+    "event": "Moscow Blackout",
+    "class": "2",
+    "str_class": "Outage",
+    "project": "ris",
+    "collector": "rrc05",
+    "peers": "1853 12793 13237",
+    "start_date": "2005-05-25 04:40",
+    "finish_date": "2005-05-25 07:40",
+    "status": "ok",
+    "output_file": "combined_events/events/moscow_blackout.json",
+    "resolved_paths": {
+      "pre": "dataset/no_anomaly/Moscow_Blackout_pre_window/transform/Features/Features_1.json",
+      "anomaly": "dataset/anomaly/Moscow_Blackout/transform/Features/Features_1.json",
+      "post": "dataset/no_anomaly/Moscow_Blackout_post_window/transform/Features/Features_1.json"
+    },
+    "counts": {
+      "pre": 1439,
+      "anomaly": 179,
+      "post": 1439,
+      "total": 3057
+    }
+  },
+  {
+    "event": "Japan Earthquake",
+    "class": "2",
+    "str_class": "Outage",
+    "project": "ris",
+    "collector": "rrc06",
+    "peers": "10026 2497",
+    "start_date": "2011-03-11 09:13",
+    "finish_date": "2011-03-11 15:39",
+    "status": "ok",
+    "output_file": "combined_events/events/japan_earthquake.json",
+    "resolved_paths": {
+      "pre": "dataset/no_anomaly/Japan_Earthquake_pre_window/transform/Features/Features_1.json",
+      "anomaly": "dataset/anomaly/Japan_Earthquake/transform/Features/Features_1.json",
+      "post": "dataset/no_anomaly/Japan_Earthquake_post_window/transform/Features/Features_1.json"
+    },
+    "counts": {
+      "pre": 1438,
+      "anomaly": 385,
+      "post": 1438,
+      "total": 3261
+    }
+  }
+]
